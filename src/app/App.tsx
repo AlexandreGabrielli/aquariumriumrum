@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Aquarium } from "./components/Aquarium";
-import { Plus, Minus, Sparkles, Trash2 } from "lucide-react";
+import { Plus, Minus, Sparkles, Trash2, Thermometer } from "lucide-react";
 
 export default function App() {
-  const [waterLevel, setWaterLevel] = useState(35);
+  const [waterLevel, setWaterLevel] = useState(60);
   const [codeQuality, setCodeQuality] = useState(45);
+  const [urgencyLevel, setUrgencyLevel] = useState(20);
 
   const participants = [
     { id: "1", name: "Sophie Martin", isActive: true, color: "#FF6B6B" },
@@ -18,44 +19,62 @@ export default function App() {
   return (
     <div className="size-full bg-gradient-to-br from-sky-200 via-blue-100 to-cyan-100 p-4">
       <div className="size-full">
-        <Aquarium waterLevel={waterLevel} participants={participants} codeQuality={codeQuality} />
+        <Aquarium waterLevel={waterLevel} participants={participants} codeQuality={codeQuality} urgencyLevel={urgencyLevel} />
       </div>
 
-      {/* Contrôles de test */}
+      {/* Controls */}
       <div className="fixed bottom-6 right-6 flex flex-col gap-3">
-        {/* Contrôles niveau d'eau */}
+        {/* Water level controls */}
         <div className="flex gap-3">
           <button
             onClick={() => setWaterLevel(prev => Math.max(prev - 10, 0))}
             className="bg-white/90 backdrop-blur-sm hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
-            title="Diminuer le niveau d'eau"
+            title="Lower water level"
           >
             <Minus className="w-6 h-6 text-red-600" />
           </button>
           <button
             onClick={() => setWaterLevel(prev => Math.min(prev + 10, 100))}
             className="bg-white/90 backdrop-blur-sm hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
-            title="Augmenter le niveau d'eau"
+            title="Raise water level"
           >
             <Plus className="w-6 h-6 text-green-600" />
           </button>
         </div>
 
-        {/* Contrôles qualité du code */}
+        {/* Code quality controls */}
         <div className="flex gap-3">
           <button
             onClick={() => setCodeQuality(prev => Math.max(prev - 10, 0))}
             className="bg-white/90 backdrop-blur-sm hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
-            title="Diminuer la qualité (plus de détritus)"
+            title="Lower code quality (more debris)"
           >
             <Trash2 className="w-6 h-6 text-amber-600" />
           </button>
           <button
             onClick={() => setCodeQuality(prev => Math.min(prev + 10, 100))}
             className="bg-white/90 backdrop-blur-sm hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
-            title="Améliorer la qualité (moins de détritus)"
+            title="Improve code quality (less debris)"
           >
             <Sparkles className="w-6 h-6 text-purple-600" />
+          </button>
+        </div>
+
+        {/* Urgency controls */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => setUrgencyLevel(prev => Math.max(prev - 10, 0))}
+            className="bg-white/90 backdrop-blur-sm hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
+            title="Lower urgency (colder water)"
+          >
+            <Thermometer className="w-6 h-6 text-sky-500" />
+          </button>
+          <button
+            onClick={() => setUrgencyLevel(prev => Math.min(prev + 10, 100))}
+            className="bg-white/90 backdrop-blur-sm hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
+            title="Raise urgency (hotter water)"
+          >
+            <Thermometer className="w-6 h-6 text-red-600" />
           </button>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Fish } from "./Fish";
+import { Thermometer } from "./Thermometer";
 import { useEffect, useState } from "react";
 
 interface Participant {
@@ -13,9 +14,10 @@ interface AquariumProps {
   waterLevel: number;
   participants: Participant[];
   codeQuality?: number; // 0-100, plus c'est élevé, moins il y a de détritus
+  urgencyLevel?: number; // 0-100, état d'urgence du projet
 }
 
-export function Aquarium({ waterLevel, participants, codeQuality = 70 }: AquariumProps) {
+export function Aquarium({ waterLevel, participants, codeQuality = 70, urgencyLevel = 20 }: AquariumProps) {
   const [bubbles, setBubbles] = useState<{ id: number; x: number; delay: number }[]>([]);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export function Aquarium({ waterLevel, participants, codeQuality = 70 }: Aquariu
       {/* Banc de sable */}
       <div className="absolute inset-x-0 bottom-0 h-20">
         {/* Sable avec texture */}
-        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <defs>
             <pattern id="sandTexture" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
               <circle cx="10" cy="10" r="1" fill="#D4A574" opacity="0.3" />
@@ -61,12 +63,10 @@ export function Aquarium({ waterLevel, participants, codeQuality = 70 }: Aquariu
           <path
             d="M 0 60 Q 25 50, 50 55 T 100 50 L 100 100 L 0 100 Z"
             fill="#D2B48C"
-            transform="scale(10, 1)"
           />
           <path
             d="M 0 60 Q 25 50, 50 55 T 100 50 L 100 100 L 0 100 Z"
             fill="url(#sandTexture)"
-            transform="scale(10, 1)"
             opacity="0.6"
           />
         </svg>
@@ -119,7 +119,7 @@ export function Aquarium({ waterLevel, participants, codeQuality = 70 }: Aquariu
         </div>
       ))}
 
-      {/* Indicateur de qualité du code */}
+      {/* Code quality indicator */}
       <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg">
         <div className="flex items-center gap-2">
           <div className={`w-3 h-3 rounded-full ${
@@ -128,7 +128,7 @@ export function Aquarium({ waterLevel, participants, codeQuality = 70 }: Aquariu
             'bg-red-500'
           }`} />
           <div>
-            <div className="text-xs text-slate-600">Qualité du code</div>
+            <div className="text-xs text-slate-600">Code quality</div>
             <div className="text-sm font-bold text-slate-800">{Math.round(codeQuality)}%</div>
           </div>
         </div>
@@ -273,6 +273,9 @@ export function Aquarium({ waterLevel, participants, codeQuality = 70 }: Aquariu
           />
         );
       })}
+
+      {/* Thermomètre d'urgence */}
+      <Thermometer urgencyLevel={urgencyLevel} />
 
       {/* Pipette graduée */}
       <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center">
